@@ -1,0 +1,559 @@
+:root {
+    --parchment-bg: #f4f1e8;
+    --ink-dark: #2d1810;
+    --ink-medium: #5d4e37;
+    --gold-accent: #d4af37;
+    --sepia-brown: #8b7355;
+    --cream-white: #faf7f0;
+    --shadow-brown: rgba(45, 24, 16, 0.3);
+    --border-gold: #c19b26;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Crimson Text', serif;
+    background: var(--parchment-bg);
+    color: var(--ink-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.vintage-container {
+    position: relative;
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Fundo de pergaminho */
+.parchment-bg::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 40%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(93, 78, 55, 0.08) 0%, transparent 50%);
+    z-index: -1;
+}
+
+/* Header Vintage */
+.vintage-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+/* Navegação */
+.character-navigation {
+    margin-bottom: 40px;
+}
+
+.nav-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream-white);
+    border: 2px solid var(--sepia-brown);
+    border-radius: 25px;
+    padding: 15px 30px;
+    box-shadow: 0 5px 15px var(--shadow-brown);
+}
+
+.nav-ornament {
+    width: 40px;
+    height: 20px;
+    background: radial-gradient(ellipse, var(--gold-accent) 30%, transparent 30%);
+    background-size: 8px 4px;
+}
+
+.character-gallery-nav {
+    display: flex;
+    gap: 15px;
+    margin: 0 30px;
+}
+
+.character-portrait-btn {
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.portrait-frame {
+    position: relative;
+    width: 100px;
+    height: 70px;
+    border: 3px solid var(--sepia-brown);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    background: var(--cream-white);
+    box-shadow: 0 2px 8px var(--shadow-brown);
+}
+
+.portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.portrait-overlay {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink-dark);
+    color: var(--cream-white);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+    border: 1px solid var(--gold-accent);
+}
+
+.portrait-overlay::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid var(--ink-dark);
+}
+
+.character-portrait-btn:hover .portrait-frame {
+    border-color: var(--gold-accent);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 15px var(--shadow-brown);
+    border-radius: 12px;
+}
+
+.character-portrait-btn:hover .portrait-frame img {
+    transform: scale(1.1);
+}
+
+.character-portrait-btn:hover .portrait-overlay {
+    opacity: 1;
+    bottom: -35px;
+}
+
+.character-portrait-btn.active .portrait-frame {
+    border-color: var(--gold-accent);
+    border-width: 4px;
+    border-radius: 10px;
+    box-shadow: 
+        0 0 0 2px var(--cream-white),
+        0 0 0 4px var(--gold-accent),
+        0 4px 15px var(--shadow-brown);
+    transform: translateY(-2px);
+}
+
+.character-portrait-btn.active .portrait-overlay {
+    opacity: 1;
+    bottom: -35px;
+    background: var(--gold-accent);
+    color: var(--ink-dark);
+    border-color: var(--border-gold);
+}
+
+/* Display de Personagem */
+.character-display {
+    position: relative;
+    min-height: 700px;
+}
+
+.character-folio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+}
+
+.character-folio.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    position: relative;
+}
+
+.folio-content {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+/* Seção do Retrato */
+.portrait-section {
+    display: flex;
+    justify-content: center;
+}
+
+.vintage-frame {
+    position: relative;
+    background: var(--cream-white);
+    padding: 20px;
+    border: 5px solid var(--gold-accent);
+    border-radius: 10px;
+    box-shadow: 
+        0 15px 35px var(--shadow-brown),
+        inset 0 0 20px rgba(212, 175, 55, 0.1);
+    transform: rotate(-1deg);
+    transition: transform 0.3s ease;
+}
+
+.vintage-frame:hover {
+    transform: rotate(0deg) scale(1.02);
+}
+
+.frame-inner {
+    position: relative;
+    border: 2px solid var(--sepia-brown);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.frame-inner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: sepia(20%) contrast(1.1);
+    transition: filter 0.3s ease;
+}
+
+.vintage-frame:hover img {
+    filter: sepia(10%) contrast(1.2);
+}
+
+.photo-corners {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--gold-accent);
+    opacity: 0.8;
+}
+
+.corner.c1 {
+    top: 10px;
+    left: 10px;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.corner.c2 {
+    top: 10px;
+    right: 10px;
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.corner.c3 {
+    bottom: 10px;
+    left: 10px;
+    clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+.corner.c4 {
+    bottom: 10px;
+    right: 10px;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.frame-nameplate {
+    background: var(--gold-accent);
+    color: var(--cream-white);
+    text-align: center;
+    padding: 8px 15px;
+    margin-top: 15px;
+    border-radius: 15px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+}
+
+/* Seção da Biografia */
+.biography-section {
+    display: flex;
+    align-items: start;
+}
+
+.bio-paper {
+    background: var(--cream-white);
+    border: 1px solid var(--sepia-brown);
+    border-radius: 5px;
+    padding: 40px;
+    box-shadow: 
+        0 10px 25px var(--shadow-brown),
+        inset 0 0 30px rgba(139, 115, 85, 0.05);
+    position: relative;
+}
+
+.bio-paper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 40px;
+    right: 40px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--sepia-brown), transparent);
+}
+
+.paper-header {
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 2px dotted var(--sepia-brown);
+    padding-bottom: 20px;
+}
+
+.character-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--ink-dark);
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px var(--shadow-brown);
+}
+
+.name-underline {
+    width: 60%;
+    height: 2px;
+    background: var(--gold-accent);
+    margin: 0 auto 15px;
+    border-radius: 1px;
+}
+
+.character-title {
+    font-style: italic;
+    color: var(--ink-medium);
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+}
+
+.bio-content {
+    position: relative;
+}
+
+.initial-letter {
+    float: left;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 3rem;
+    color: var(--gold-accent);
+    margin: 0 8px 0 0;
+    text-shadow: 2px 2px 4px var(--shadow-brown);
+}
+
+.bio-text {
+    font-size: 1.1rem;
+    text-align: justify;
+    text-indent: 0;
+    margin-bottom: 30px;
+    hyphens: auto;
+}
+
+.character-attributes {
+    margin: 30px 0;
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.character-attributes h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--ink-dark);
+    margin-bottom: 15px;
+    text-align: center;
+    font-style: italic;
+}
+
+.vintage-list {
+    list-style: none;
+    padding: 0;
+}
+
+.vintage-list li {
+    position: relative;
+    padding: 8px 0 8px 30px;
+    font-size: 1rem;
+    color: var(--ink-medium);
+}
+
+.vintage-list li::before {
+    content: '❦';
+    position: absolute;
+    left: 0;
+    color: var(--gold-accent);
+    font-size: 1.1rem;
+}
+
+.vintage-quote {
+    margin-top: 40px;
+    padding: 25px;
+    background: rgba(139, 115, 85, 0.05);
+    border-left: 4px solid var(--gold-accent);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+}
+
+.vintage-quote blockquote {
+    font-size: 1.2rem;
+    color: var(--ink-dark);
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+}
+
+.vintage-quote cite {
+    display: block;
+    text-align: right;
+    color: var(--ink-medium);
+    font-size: 0.9rem;
+    font-style: normal;
+}
+
+/* Footer */
+.vintage-footer {
+    margin-top: 60px;
+    text-align: center;
+    padding: 30px;
+    border-top: 2px dotted var(--sepia-brown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.footer-ornament {
+    width: 50px;
+    height: 20px;
+    background: radial-gradient(ellipse, var(--gold-accent) 30%, transparent 30%);
+    background-size: 10px 5px;
+}
+
+.vintage-footer p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--ink-medium);
+    font-size: 1.1rem;
+}
+
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.character-folio.active .vintage-frame {
+    animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.character-folio.active .paper-header {
+    animation: fadeInUp 0.8s ease 0.4s both;
+}
+
+.character-folio.active .bio-content {
+    animation: fadeInUp 0.8s ease 0.6s both;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .vintage-container {
+        padding: 20px 15px;
+    }
+    
+    .vintage-title {
+        font-size: 2.5rem;
+    }
+    
+    .folio-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .character-tabs {
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 0 15px;
+    }
+    
+    .tab-btn {
+        padding: 8px 15px;
+        font-size: 1rem;
+    }
+    
+    .bio-paper {
+        padding: 25px;
+    }
+    
+    .character-name {
+        font-size: 2.2rem;
+    }
+    
+    .initial-letter {
+        font-size: 3rem;
+        line-height: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ornamental-border {
+        padding: 30px 20px;
+    }
+    
+    .vintage-title {
+        font-size: 2rem;
+    }
+    
+    .nav-frame {
+        padding: 10px 15px;
+    }
+    
+    .character-tabs {
+        margin: 0 10px;
+    }
+    
+    .tab-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
